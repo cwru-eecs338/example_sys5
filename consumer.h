@@ -1,0 +1,1 @@
+void consumer(void);
