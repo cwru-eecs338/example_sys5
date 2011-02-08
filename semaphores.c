@@ -5,10 +5,24 @@
 #include <sys/sem.h>
 #include <sys/shm.h>
 
+#include "common.h"
+
+void initialize_counts(int semkey);
+
 const int BUF_SIZE = 3;
 enum SEMAPHORES {MUTEX = 0, EMPTY, FULL, NUM_SEM};
 
 int main() {
+
+    // Create shared memory segment
+    // With size shmsize
+    // Create if necessary (IPC_CREAT) with r/w permissions (0666)
+    size_t shmsize = BUF_SIZE;
+    int shmid = shmget(IPC_PRIVATE, shmsize, IPC_CREAT | 0666);
+    if (shmid < 0) {
+        perror("Error getting semaphores");
+        exit(EXIT_FAILURE);
+    }
 
     // Get private semaphore group (IPC_PRIVATE)
     // With NUM_SEM semaphores in it
@@ -18,14 +32,7 @@ int main() {
         perror("Error getting semaphores");
         exit(EXIT_FAILURE);
     }
-
-    // Create shared memory (similar arguments as semget)
-    size_t shmsize = BUF_SIZE;
-    int shmid = shmget(IPC_PRIVATE, shmsize, IPC_CREAT | 0666);
-    if (shmid < 0) {
-        perror("Error getting semaphores");
-        exit(EXIT_FAILURE);
-    }
+    initialize_counts(semkey);
 
     // For semaphore group with semkey
     // (Second argument ignored)
@@ -44,4 +51,22 @@ int main() {
     }
 
     exit(EXIT_SUCCESS);
+}
+
+void initialize_counts(int semkey) {
+    // Create union structure for counts
+    union semun sem_union;
+    unsigned short counters[3];
+    counters[MUTEX] = 1;
+    counters[EMPTY] = BUF_SIZE;
+    counters[FULL ] = 0;
+    sem_union.array = counters;
+
+    // Call semctl to set all counts
+    // (second argument is ignored)
+    int semset = semctl(semkey, 0, SETALL, sem_union);
+    if (semset < 0) {
+        perror("Error setting semaphore counts");
+        exit(EXIT_FAILURE);
+    }
 }
