@@ -23,11 +23,11 @@ clean:
 	@rm -f $(OUTPUT)
 
 CLEAN_MSG = "All resources closed/removed."
-UNCLEAN_MSG = "Please clean resources using 'ipcrm'."
+UNCLEAN_MSG = "Please clean resources using 'ipcrm'"
 # Make and run program
 test: all
 	@echo
 	-@./$(OUTPUT)
 	@echo
 	@echo "Checking for open resources..."
-	@ipcs | grep -q -w $(USER); if [ $$? = 1 ] ; then echo $(CLEAN_MSG);  else ipcs && echo $(UNCLEAN_MSG); fi
+	@ipcs | grep -q -w $(USER); if [ $$? = 1 ] ; then echo $(CLEAN_MSG); else ipcs && echo $(UNCLEAN_MSG); fi
