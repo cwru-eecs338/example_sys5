@@ -10,3 +10,22 @@ union semun {
     struct seminfo  *__buf;  /* Buffer for IPC_INFO
                                 (Linux-specific) */
 };
+
+struct charm {
+    enum COLOR
+    {
+        PINK = 0,
+        YELLOW,
+        ORANGE,
+        GREEN,
+        BLUE,
+        PURPLE,
+        RED
+    } color;
+    char shape[32];
+};
+
+#define CHARMS 7
+extern struct charm LUCKY_CHARMS[];
+
+void print_charm(struct charm *);

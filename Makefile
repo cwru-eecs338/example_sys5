@@ -3,7 +3,7 @@ CC = gcc
 # -Wall : show all warnings
 FLAGS = -g -Wall
 LIBS = # None yet...
-SOURCE = producer.c consumer.c semaphores.c
+SOURCE = common.c producer.c consumer.c semaphores.c
 OUTPUT = main
 
 all: $(SOURCE)
