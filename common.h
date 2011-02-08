@@ -1,3 +1,5 @@
+#ifndef SEMAPHORE_COMMON
+#define SEMAPHORE_COMMON
 
 /*
  * Create 'semun' structure
@@ -11,6 +13,26 @@ union semun {
                                 (Linux-specific) */
 };
 
+// Wait and signal operations
+// given to 'semop'
+#define WAIT -1
+#define SIGNAL 1
+
+// Holds information need by
+// producer and consumer
+struct shared_data {
+    int buf_size; // Size of shared buffer (in charms)
+    int shmid;    // ID for shared memory
+    int semkey;   // ID for semaphore group
+    int mutex;    // Index for 'mutex' semaphore
+    int empty;    // Index for 'empty' semaphore
+    int full;     // Index for 'full' semaphore
+};
+
+// The data we'll be passing
+// between processes
+// (and part of a
+//  balanced breakfast)
 struct charm {
     enum COLOR
     {
@@ -29,3 +51,4 @@ struct charm {
 extern struct charm LUCKY_CHARMS[];
 
 void print_charm(struct charm *);
+#endif

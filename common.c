@@ -1,15 +1,21 @@
 #include <stdio.h>
 #include "common.h"
 
+// Define the lucky charms...
 struct charm LUCKY_CHARMS[CHARMS] = {
     {PINK, "HEART"},
-    {YELLOW, "MOON"},
     {ORANGE, "STAR"},
+    {YELLOW, "MOON"},
     {GREEN, "CLOVER"},
     {BLUE, "DIAMOND"},
     {PURPLE, "HORSESHOE"},
-    {RED, "BALLON"}
+    {RED, "BALLOON"}
 };
+
+// It's not important to understand
+// anything that's happening here;
+// just prints things in delicious
+// colors and flavors...
 
 enum ANSI_SETTING {
     DIM = 0,

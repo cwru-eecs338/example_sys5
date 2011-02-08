@@ -46,13 +46,23 @@ int main() {
     }
     initialize_counts(semkey);
 
+    // Setup shared data
+    struct shared_data shared = {
+        BUF_SIZE,
+        shmid,
+        semkey,
+        MUTEX,
+        EMPTY,
+        FULL
+    };
+
     // Fork producer
     producer_id = fork();
     if (producer_id < 0) {
         perror("Error forking producer");
         cleanup(EXIT_FAILURE);
     } else if (!producer_id) {
-        producer();
+        producer(shared);
     }
 
     // Fork consumer
@@ -61,7 +71,7 @@ int main() {
         perror("Error forking consumer");
         cleanup(EXIT_FAILURE);
     } else if (!consumer_id) {
-        consumer();
+        consumer(shared);
     }
 
     // Wait for producer
