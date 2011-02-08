@@ -74,27 +74,20 @@ int main() {
         consumer(shared);
     }
 
-    // Wait for producer
-    int finished_id = wait(NULL);
-    if (finished_id == producer_id) {
-        // Expected behavior,
-        // mark producer as finished
-        producer_id = -1;
-    } else {
-        // Something bad happened
-        // to consumer
-        consumer_id = -1;
-        cleanup(EXIT_FAILURE);
-    }
-    // Kill consumer
-    kill(consumer_id, SIGKILL);
-    wait(NULL);
-    consumer_id = -1;
+    // Wait for children
+    int status1, status2;
+    wait(&status1);
+    wait(&status2);
+    int status = status1 || status2;
 
-    cleanup(EXIT_SUCCESS);
+    // Mark children as finished
+    consumer_id = -1;
+    producer_id = -1;
+
+    cleanup(status);
 
     // Should never reach this statement, but...
-    exit(EXIT_SUCCESS);
+    exit(status);
 }
 
 void initialize_counts(int semkey) {
