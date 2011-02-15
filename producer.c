@@ -65,5 +65,7 @@ void producer(struct shared_data shared) {
 
     }
 
+    shmdt(charm_buf);
+
     _exit(EXIT_SUCCESS);
 }

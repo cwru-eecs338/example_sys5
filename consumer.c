@@ -66,5 +66,7 @@ void consumer(struct shared_data shared) {
 
     }
 
+    shmdt(charm_buf);
+
     _exit(EXIT_SUCCESS);
 }
