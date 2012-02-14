@@ -20,7 +20,7 @@ union semun {
 
 // Holds information need by
 // producer and consumer
-struct shared_data {
+struct shared_data_info {
     int buf_size; // Size of shared buffer (in charms)
     int shmid;    // ID for shared memory
     int semkey;   // ID for semaphore group

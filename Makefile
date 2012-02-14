@@ -10,7 +10,7 @@ all: $(SOURCE)
 	@# Call the compiler with source & output arguments
 	$(CC) $(LIBS) $(FLAGS) -o $(OUTPUT) $(SOURCE)
 	@# Make the output file executable
-	chmod 755 $(OUTPUT)
+	chmod u+x $(OUTPUT)
 
 # 'clean' rule for remove non-source files
 # To use, call 'make clean'

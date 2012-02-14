@@ -47,7 +47,7 @@ int main() {
     initialize_counts(semkey);
 
     // Setup shared data
-    struct shared_data shared = {
+    struct shared_data_info shared = {
         BUF_SIZE,
         shmid,
         semkey,

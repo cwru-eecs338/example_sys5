@@ -8,7 +8,7 @@
 
 #include "common.h"
 
-void producer(struct shared_data shared) {
+void producer(struct shared_data_info shared) {
     // Define useful semaphore variables
     struct sembuf wait_mutex = {shared.mutex, WAIT, 0};
     struct sembuf signal_mutex = {shared.mutex, SIGNAL, 0};
