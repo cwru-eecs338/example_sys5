@@ -78,7 +78,7 @@ int main() {
     int status1, status2;
     wait(&status1);
     wait(&status2);
-    int status = status1 || status2;
+    int status = WEXITSTATUS(status1) || WEXITSTATUS(status2);
 
     // Mark children as finished
     consumer_id = -1;
