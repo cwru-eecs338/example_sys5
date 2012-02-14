@@ -75,6 +75,7 @@ int main() {
     }
 
     // Wait for children
+    // TODO: Error checking
     int status1, status2;
     wait(&status1);
     wait(&status2);
@@ -87,7 +88,7 @@ int main() {
     cleanup(status);
 
     // Should never reach this statement, but...
-    exit(status);
+    return status;
 }
 
 void initialize_counts(int semkey) {
@@ -111,10 +112,12 @@ void initialize_counts(int semkey) {
 void cleanup(int status) {
     // Kill children if they're running
     if (producer_id > 0) {
+        // TODO: Error checking
         kill(producer_id, SIGKILL);
         wait(NULL);
     }
     if (consumer_id > 0) {
+        // TODO: Error checking
         kill(consumer_id, SIGKILL);
         wait(NULL);
     }
