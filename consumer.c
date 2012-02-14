@@ -46,7 +46,7 @@ void consumer(struct shared_data_info shared) {
         // Shared memory access
         struct charm next_charm = charm_buf[nextc];
         nextc = (nextc + 1) % shared.buf_size;
-        printf("Consuming: ");
+        printf("    Consuming: ");
         print_charm(&next_charm);
         printf("\n");
 
