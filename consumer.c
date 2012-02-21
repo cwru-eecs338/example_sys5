@@ -21,6 +21,7 @@ void consumer(struct shared_data_info shared) {
     // it however we like, so let's pretend
     // it's an array of lucky charms...
     struct charm *charm_buf = shmat(shared.shmid, (void *) 0, 0);
+    // TODO: check for errors (return value < 0)
 
     int nextc = 0;
 
@@ -67,6 +68,7 @@ void consumer(struct shared_data_info shared) {
     }
 
     shmdt(charm_buf);
+    // TODO: check for errors (return value < 0)
 
     _exit(EXIT_SUCCESS);
 }
