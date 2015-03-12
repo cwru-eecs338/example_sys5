@@ -1,5 +1,5 @@
-Producer/Consumer Problem using Semaphores
-==========================================
+Producer/Consumer Problem using System V Semaphores
+===================================================
 
 Getting the files:
 ------------------
