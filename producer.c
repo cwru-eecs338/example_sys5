@@ -47,6 +47,7 @@ void producer(struct shared_data_info shared) {
         printf("Producing: ");
         print_charm(&next_charm);
         printf("\n");
+	fflush(0);
         charm_buf[nextp] = next_charm; // Shared memory access
         nextp = (nextp + 1) % shared.buf_size;
 

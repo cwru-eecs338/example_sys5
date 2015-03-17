@@ -50,6 +50,7 @@ void consumer(struct shared_data_info shared) {
         printf("    Consuming: ");
         print_charm(&next_charm);
         printf("\n");
+        fflush(0);
 
         /*********************CRITICAL SECTION END*********************/
 
