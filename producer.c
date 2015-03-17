@@ -10,18 +10,24 @@
 
 void producer(struct shared_data_info shared) {
     // Define useful semaphore variables
-    struct sembuf wait_mutex = {shared.mutex, WAIT, 0};
-    struct sembuf signal_mutex = {shared.mutex, SIGNAL, 0};
-    struct sembuf wait_empty = {shared.empty, WAIT, 0};
-    struct sembuf signal_full = {shared.full, SIGNAL, 0};
+    struct sembuf wait_mutex = {shared.mutex, WAIT, 0}; //for wait(mutex)
+    struct sembuf signal_mutex = {shared.mutex, SIGNAL, 0}; //for signal(mutex)
+    struct sembuf wait_empty = {shared.empty, WAIT, 0}; //for wait(empty)
+    struct sembuf signal_full = {shared.full, SIGNAL, 0}; //for signal(full)
 
     // Attach to shared memory
     // As a trick, since 'shmat' returns
     // a pointer to the data, we can treat
     // it however we like, so let's pretend
     // it's an array of lucky charms...
+    // (this implicitly casts the blob of shared
+    // memory to the shared data structure,
+    // which is the "charm" struct)
     struct charm *charm_buf = shmat(shared.shmid, (void *) 0, 0);
-    // TODO: check for errors (return value < 0)
+    if(charm_buf < 0) {
+	perror("shmat(shared.shmid, (void *) 0, 0)");
+	_exit(EXIT_FAILURE);
+    }
 
     int nextp = 0;
 
@@ -67,8 +73,11 @@ void producer(struct shared_data_info shared) {
 
     }
 
-    shmdt(charm_buf);
-    // TODO: check for errors (return value < 0)
+    // Detach from the shared memory
+    if(shmdt(charm_buf) < 0) {
+    	perror("shmdt(charm_buf)");
+	_exit(EXIT_FAILURE);
+    }
 
     _exit(EXIT_SUCCESS);
 }
