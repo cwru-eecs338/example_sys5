@@ -21,7 +21,6 @@ const int BUF_SIZE = 3;
 enum SEMAPHORES {MUTEX = 0, EMPTY, FULL, NUM_SEM}; 
 
 // Keys for Shared memory and semaphores
-// (want to change in a shared computing environment)
 int shmid = -1;
 int semkey = -1;
 pid_t producer_id = -1;
