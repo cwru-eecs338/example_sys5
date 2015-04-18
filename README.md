@@ -5,7 +5,7 @@ Getting the files:
 ------------------
 On the lab computers, use the command:
 
-    git clone git://github.com/cwru-eecs338/semaphores.git
+    git clone git://github.com/cwru-eecs338/example_sys5.git
 
 Lessons:
 --------
