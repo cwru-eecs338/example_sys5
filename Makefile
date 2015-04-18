@@ -1,10 +1,10 @@
 CC = gcc
 # -g : allows use of GNU Debugger
 # -Wall : show all warnings
-FLAGS = -g -Wall
+FLAGS = -g -Wall -Werror
 LIBS = # None yet...
 SOURCE = common.c producer.c consumer.c semaphores.c
-OUTPUT = main
+OUTPUT = semaphore
 
 all: $(SOURCE)
 	@# Call the compiler with source & output arguments
@@ -21,6 +21,7 @@ clean:
 	@# Using the '@' sign suppresses echoing
 	@# the line while the command is run
 	@rm -f $(OUTPUT)
+	@ipcrm
 
 CLEAN_MSG = "All resources closed/removed."
 UNCLEAN_MSG = "Please clean resources using 'ipcrm'"

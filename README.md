@@ -1,4 +1,4 @@
-Producer/Consumer Problem using System V Semaphores
+Producer/Consumer Problem using (System V Semaphores) and Processes
 ===================================================
 
 Getting the files:

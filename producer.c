@@ -25,8 +25,8 @@ void producer(struct shared_data_info shared) {
     // which is the "charm" struct)
     struct charm *charm_buf = shmat(shared.shmid, (void *) 0, 0);
     if(charm_buf < 0) {
-	perror("shmat(shared.shmid, (void *) 0, 0)");
-	_exit(EXIT_FAILURE);
+		perror("shmat(shared.shmid, (void *) 0, 0)");
+		_exit(EXIT_FAILURE);
     }
 
     int nextp = 0;
@@ -49,13 +49,13 @@ void producer(struct shared_data_info shared) {
 
         /********************CRITICAL SECTION BEGIN********************/
         
-        struct charm next_charm = LUCKY_CHARMS[c];
+        struct charm *produce_charm = &LUCKY_CHARMS[c];
         printf("Producing: ");
-        print_charm(&next_charm);
+        print_charm(produce_charm);
         printf("\n");
-	fflush(0);
-        charm_buf[nextp] = next_charm; // Shared memory access
-        nextp = (nextp + 1) % shared.buf_size;
+		fflush(0);
+        charm_buf[nextp] = *produce_charm; // Shared memory access
+        nextp = (nextp + 1) % shared.BUF_SIZE;
 
         /*********************CRITICAL SECTION END*********************/
 
@@ -76,7 +76,7 @@ void producer(struct shared_data_info shared) {
     // Detach from the shared memory
     if(shmdt(charm_buf) < 0) {
     	perror("shmdt(charm_buf)");
-	_exit(EXIT_FAILURE);
+		_exit(EXIT_FAILURE);
     }
 
     _exit(EXIT_SUCCESS);

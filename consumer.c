@@ -25,8 +25,8 @@ void consumer(struct shared_data_info shared) {
     // which is the "charm" struct)
     struct charm *charm_buf = shmat(shared.shmid, (void *) 0, 0);
     if(charm_buf < 0) {
-	perror("shmat(shared.shmid, (void *) 0, 0)");
-	_exit(EXIT_FAILURE);
+		perror("shmat(shared.shmid, (void *) 0, 0)");
+		_exit(EXIT_FAILURE);
     }
 
     int nextc = 0;
@@ -51,10 +51,10 @@ void consumer(struct shared_data_info shared) {
         /********************CRITICAL SECTION BEGIN********************/
         
         // Shared memory access
-        struct charm next_charm = charm_buf[nextc];
-        nextc = (nextc + 1) % shared.buf_size;
+        struct charm consume_charm = charm_buf[nextc];
+        nextc = (nextc + 1) % shared.BUF_SIZE;
         printf("    Consuming: ");
-        print_charm(&next_charm);
+        print_charm(&consume_charm);
         printf("\n");
         fflush(0);
 
@@ -76,8 +76,8 @@ void consumer(struct shared_data_info shared) {
 
     //Detach from the shared memory.
     if(shmdt(charm_buf) < 0) {
-	perror("shmdt(charm_buf");
-	_exit(EXIT_FAILURE);
+		perror("shmdt(charm_buf");
+		_exit(EXIT_FAILURE);
     }
     
     _exit(EXIT_SUCCESS);

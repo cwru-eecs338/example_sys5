@@ -48,16 +48,19 @@ int main() {
     }
     initialize_counts(semkey); //Initializes semaphores. See below.
 
-    // Setup data to be shared between parent (this) process and
+    // Setup data to be shared* between parent (this) process and
     // child (producer and consumer) processes.
+	// Unlike the memory segment that is set aside by the call to the
+	// "shmget()", this struct is actually being copied to each child process.
+	// So below, the child functions are called with a reference to *their own copy*.
     struct shared_data_info shared = {
-        BUF_SIZE, 
-        shmid,
-        semkey,
-        MUTEX,
-        EMPTY,
-        FULL
-    };
+        .BUF_SIZE = BUF_SIZE, 
+		.shmid = shmid,
+		.semkey = semkey,
+        .mutex = MUTEX,
+        .empty = EMPTY,
+        .full = FULL,
+	};
 
     // Fork producer
     producer_id = fork();
@@ -85,12 +88,12 @@ int main() {
     // Wait for children
     int status1, status2;
     if (wait(&status1) < 0) {
-	perror("wait(&status1)");
-	cleanup(EXIT_FAILURE);
+		perror("wait(&status1)");
+		cleanup(EXIT_FAILURE);
     }
     if (wait(&status2) < 0) {
-	perror("wait(&status2)");
-	cleanup(EXIT_FAILURE);
+		perror("wait(&status2)");
+		cleanup(EXIT_FAILURE);
     }
     int status = WEXITSTATUS(status1) || WEXITSTATUS(status2);
 
