@@ -3,8 +3,8 @@ CC = gcc
 # -Wall : show all warnings
 FLAGS = -g -Wall -Werror
 LIBS = # None yet...
-SOURCE = common.c producer.c consumer.c semaphores.c
-OUTPUT = semaphore
+SOURCE = common.c producer.c consumer.c main.c
+OUTPUT = main
 
 all: $(SOURCE)
 	@# Call the compiler with source & output arguments
